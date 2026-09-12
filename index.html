@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#10243E">
+    <meta name="description" content="The Daily Jobs — Job Circular Video Studio">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="icons/icon-192.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,700;1,700&family=Inter:wght@300;400;600;700;800;900&display=swap');
+
+        #ixgrade-video-studio,
+        #ixgrade-video-studio * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #ixgrade-video-studio {
+            width: 100%;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            isolation: isolate;
+        }
+
+        @media (min-width: 1024px) {
+            #ixgrade-video-studio {
+                padding: 2rem;
+                align-items: center;
+                min-height: 100vh;
+            }
+        }
+
+        #ixgrade-video-studio .ixvs-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1024px) {
+            #ixgrade-video-studio .ixvs-container {
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: center;
+                gap: 3rem;
+            }
+        }
+
+        #ixgrade-video-studio .ixvs-preview {
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        @media (min-width: 1024px) {
+            #ixgrade-video-studio .ixvs-preview {
+                margin: 0;
+            }
+        }
+
+        #ixgrade-video-studio .ixvs-settings {
+            width: 100%;
+            max-width: 640px;
+            margin: 0 auto;
+            flex: 1;
+        }
+
+        @media (min-width: 1024px) {
+            #ixgrade-video-studio .ixvs-settings {
+                margin: 0;
+                max-width: none;
+            }
+        }
+
+        #ixgrade-video-studio .ixvs-canvas-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 380px;
+            margin: 0 auto;
+            aspect-ratio: 4 / 5;
+            background: #fff;
+            box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.15);
+            border: 6px solid white;
+            border-radius: 1.25rem;
+            overflow: hidden;
+        }
+
+        @supports not (aspect-ratio: 4 / 5) {
+            #ixgrade-video-studio .ixvs-canvas-wrap {
+                height: 0;
+                padding-bottom: 125%;
+            }
+            #ixgrade-video-studio .ixvs-canvas-wrap canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+
+        #ixgrade-video-studio canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #ixgrade-video-studio .ixvs-glass {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+            padding: 1.25rem;
+        }
+
+        @media (min-width: 768px) {
+            #ixgrade-video-studio .ixvs-glass {
+                padding: 2rem;
+            }
+        }
+
+        #ixgrade-video-studio .ixvs-input {
+            display: block;
+            width: 100%;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 0.875rem 1rem;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            color: #0f172a;
+            line-height: 1.5;
+            -webkit-appearance: none;
+            appearance: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        #ixgrade-video-studio .ixvs-input:focus {
+            border-color: #C9A24A;
+            box-shadow: 0 0 0 3px rgba(201, 162, 74, 0.15);
+        }
+
+        #ixgrade-video-studio .ixvs-btn {
+            display: block;
+            width: 100%;
+            background: #10243E;
+            color: white;
+            padding: 1rem;
+            border-radius: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.875rem;
+            line-height: 1.2;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            min-height: 52px;
+            touch-action: manipulation;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        #ixgrade-video-studio .ixvs-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+        }
+
+        #ixgrade-video-studio .ixvs-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        #ixgrade-video-studio .ixvs-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        #ixgrade-video-studio .ixvs-download {
+            display: block;
+            width: 100%;
+            background: #C9A24A;
+            color: #10243E;
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.875rem;
+            line-height: 1.2;
+            box-shadow: 0 8px 20px -4px rgba(201, 162, 74, 0.35);
+            text-decoration: none;
+            min-height: 52px;
+            cursor: pointer;
+        }
+
+        #ixgrade-video-studio .ixvs-filebox {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 100%;
+            padding: 0.875rem 1rem;
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            min-height: 52px;
+            overflow: hidden;
+        }
+
+        #ixgrade-video-studio .ixvs-filebox:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+
+        #ixgrade-video-studio .ixvs-filebox input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        #ixgrade-video-studio .ixvs-fileicon {
+            flex-shrink: 0;
+            color: #C9A24A;
+        }
+
+        #ixgrade-video-studio .ixvs-filename {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 0;
+        }
+
+        #ixgrade-video-studio .ixvs-statusrow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #ixgrade-video-studio .ixvs-progress-track {
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        #ixgrade-video-studio .ixvs-progress-fill {
+            height: 100%;
+            background: #C9A24A;
+            width: 0%;
+            transition: width 0.2s linear;
+            border-radius: 999px;
+        }
+
+        #ixgrade-video-studio .ixvs-tipbox {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: #fef9ef;
+            border-radius: 0.75rem;
+            border: 1px solid #f5e6c8;
+        }
+
+        #ixgrade-video-studio .ixvs-tipbox p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #8a6d2b;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        @media (max-width: 380px) {
+            #ixgrade-video-studio .ixvs-canvas-wrap {
+                border-radius: 0.75rem;
+                border-width: 4px;
+            }
+            #ixgrade-video-studio .ixvs-glass {
+                border-radius: 1rem;
+                padding: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="ixgrade-video-studio">
+        <div class="ixvs-container">
+            <!-- Left: Preview -->
+            <div class="ixvs-preview">
+                <div class="ixvs-canvas-wrap">
+                    <canvas id="ixvs-canvas" width="1080" height="1350"></canvas>
+                </div>
+                <div class="w-full max-w-[380px] mx-auto space-y-3">
+                    <div class="ixvs-statusrow">
+                        <span id="ixvs-status" class="text-[10px] font-black uppercase tracking-widest text-slate-400">Ready</span>
+                        <span id="ixvs-progressText" class="text-[10px] font-bold text-amber-700">0%</span>
+                    </div>
+                    <div class="ixvs-progress-track">
+                        <div id="ixvs-progressBar" class="ixvs-progress-fill"></div>
+                    </div>
+                    <button id="ixvs-startBtn" disabled class="ixvs-btn">Start Rendering</button>
+                    <a id="ixvs-saveBtn" class="hidden ixvs-download">Download HD Video</a>
+                    <p id="ixvs-formatNote" class="text-[10px] text-center text-slate-400 font-medium px-2"></p>
+                </div>
+            </div>
+
+            <!-- Right: Settings -->
+            <div class="ixvs-settings">
+                <div class="ixvs-glass">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1.5 tracking-wide">Main Headline</label>
+                            <input type="text" id="ixvs-mainTitle" value="Weekly The Daily Jobs Update" class="ixvs-input" autocomplete="off" spellcheck="false">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1.5 tracking-wide">Date/Subtext</label>
+                            <input type="text" id="ixvs-subTitle" value="May 2024 Collection" class="ixvs-input" autocomplete="off" spellcheck="false">
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1.5 tracking-wide">Circular Images</label>
+                            <div class="ixvs-filebox">
+                                <svg class="ixvs-fileicon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <span class="ixvs-filename" id="ixvs-assetsText">Choose images...</span>
+                                <!-- All common image formats supported -->
+                                <input type="file" id="ixvs-assets" accept="image/*,.heic,.heif,.jpg,.jpeg,.png,.webp,.gif,.bmp,.tiff,.tif" multiple>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-400 mb-1.5 tracking-wide">Background Music</label>
+                            <div class="ixvs-filebox">
+                                <svg class="ixvs-fileicon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                                <span class="ixvs-filename" id="ixvs-musicText">Choose audio...</span>
+                                <input type="file" id="ixvs-music" accept="audio/*">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ixvs-tipbox">
+                        <p>
+                            <strong>Pro Tip:</strong> JPG, PNG, WebP work best. If your photos are iPhone HEIC files, convert them to JPG first &mdash; many browsers still don't support HEIC.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="ixvs-player" style="display:none;"></audio>
+
+    <script>
+    (function() {
+        'use strict';
+
+        var canvas = document.getElementById('ixvs-canvas');
+        var ctx = canvas.getContext('2d');
+        var startBtn = document.getElementById('ixvs-startBtn');
+        var saveBtn = document.getElementById('ixvs-saveBtn');
+        var statusEl = document.getElementById('ixvs-status');
+        var progressBar = document.getElementById('ixvs-progressBar');
+        var progressText = document.getElementById('ixvs-progressText');
+        var formatNote = document.getElementById('ixvs-formatNote');
+        var assetsInput = document.getElementById('ixvs-assets');
+        var musicInput = document.getElementById('ixvs-music');
+        var assetsText = document.getElementById('ixvs-assetsText');
+        var musicText = document.getElementById('ixvs-musicText');
+        var player = document.getElementById('ixvs-player');
+
+        var loadedImgs = [];
+        var recorder = null;
+        var chunks = [];
+        var isRendering = false;
+
+        var PAPER = '#F6F2E9';
+        var CREAM = '#FBF8F1';
+        var palettes = [
+            { dark: '#10243E', accent: '#C9A24A' },
+            { dark: '#10321F', accent: '#C9A24A' },
+            { dark: '#3B0F1D', accent: '#C9A24A' },
+            { dark: '#1C1C22', accent: '#C9A24A' },
+            { dark: '#1B1640', accent: '#C9A24A' }
+        ];
+        var activePalette = palettes[0];
+
+        function cubicBezier(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+
+        // -- Text helpers ------------------------------------------
+        function measureWithSpacing(ctx, text, spacing) {
+            if (!spacing || spacing <= 0) return ctx.measureText(text).width;
+            return ctx.measureText(text).width + spacing * (text.length - 1);
+        }
+
+        function fitText(ctx, text, maxWidth, desiredSize, fontStyle, fontFamily, spacing, minSize) {
+            spacing = spacing || 0;
+            minSize = minSize || 24;
+            for (var s = desiredSize; s >= minSize; s -= 2) {
+                ctx.font = fontStyle + ' ' + s + 'px ' + fontFamily;
+                if (measureWithSpacing(ctx, text, spacing) <= maxWidth) return s;
+            }
+            return minSize;
+        }
+
+        function drawTextWithSpacing(ctx, text, x, y, spacing, align) {
+            align = align || 'center';
+            var prevAlign = ctx.textAlign;
+            if (!spacing || spacing <= 0) {
+                ctx.textAlign = align;
+                ctx.fillText(text, x, y);
+                ctx.textAlign = prevAlign;
+                return;
+            }
+            var totalWidth = ctx.measureText(text).width + spacing * (text.length - 1);
+            var startX;
+            if (align === 'left') startX = x;
+            else if (align === 'right') startX = x - totalWidth;
+            else startX = x - totalWidth / 2;
+            ctx.textAlign = 'left';
+            var currentX = startX;
+            var chars = text.split('');
+            for (var i = 0; i < chars.length; i++) {
+                ctx.fillText(chars[i], currentX, y);
+                currentX += ctx.measureText(chars[i]).width + spacing;
+            }
+            ctx.textAlign = prevAlign;
+        }
+
+        function wrapText(ctx, text, maxWidth) {
+            var words = text.split(' ').filter(Boolean);
+            if (words.length === 0) return [''];
+            var lines = [];
+            var currentLine = words[0];
+            for (var i = 1; i < words.length; i++) {
+                var testLine = currentLine + ' ' + words[i];
+                if (ctx.measureText(testLine).width <= maxWidth) {
+                    currentLine = testLine;
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        function fitMultilineText(ctx, text, maxWidth, desiredSize, fontStyle, fontFamily, minSize, maxLines, maxHeight, lineHeightFactor) {
+            minSize = minSize || 28;
+            maxLines = maxLines || 3;
+            lineHeightFactor = lineHeightFactor || 1.1;
+            for (var s = desiredSize; s >= minSize; s -= 2) {
+                ctx.font = fontStyle + ' ' + s + 'px ' + fontFamily;
+                var lines = wrapText(ctx, text, maxWidth);
+                var widthOk = lines.length <= maxLines && lines.every(function(l) { return ctx.measureText(l).width <= maxWidth; });
+                var heightOk = !maxHeight || (lines.length * s * lineHeightFactor) <= maxHeight;
+                if (widthOk && heightOk) return { size: s, lines: lines, lineHeight: s * lineHeightFactor };
+            }
+            ctx.font = fontStyle + ' ' + minSize + 'px ' + fontFamily;
+            var linesFallback = wrapText(ctx, text, maxWidth);
+            if (linesFallback.length > maxLines) {
+                linesFallback = linesFallback.slice(0, maxLines);
+                var last = linesFallback[maxLines - 1];
+                while (last.length > 1 && ctx.measureText(last + '...').width > maxWidth) {
+                    last = last.slice(0, -1);
+                }
+                linesFallback[maxLines - 1] = last + '...';
+            }
+            return { size: minSize, lines: linesFallback, lineHeight: minSize * lineHeightFactor };
+        }
+
+        function drawPillButton(ctx, x, y, w, h, color) {
+            var r = h / 2;
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.arcTo(x + w, y, x + w, y + h, r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.arcTo(x + w, y + h, x, y + h, r);
+            ctx.lineTo(x + r, y + h);
+            ctx.arcTo(x, y + h, x, y, r);
+            ctx.lineTo(x, y + r);
+            ctx.arcTo(x, y, x + w, y, r);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // -- Reliable file reading -----------------------------------
+        function readFileAsDataURL(file) {
+            return new Promise(function(resolve, reject) {
+                var reader = new FileReader();
+                reader.onload = function() { resolve(reader.result); };
+                reader.onerror = function() { reject(reader.error || new Error('File read failed')); };
+                reader.onabort = function() { reject(new Error('File read aborted')); };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function loadImageFromSrc(src) {
+            return new Promise(function(resolve, reject) {
+                var img = new Image();
+                img.onload = function() { resolve(img); };
+                img.onerror = function() { reject(new Error('Image failed to decode')); };
+                img.src = src;
+            });
+        }
+
+        function getSupportedMimeType() {
+            var candidates = [
+                'video/mp4;codecs=avc1.42E01E',
+                'video/mp4;codecs=avc1',
+                'video/mp4;codecs=h264',
+                'video/mp4',
+                'video/webm;codecs=h264',
+                'video/webm;codecs=vp9',
+                'video/webm;codecs=vp8',
+                'video/webm'
+            ];
+            for (var i = 0; i < candidates.length; i++) {
+                if (MediaRecorder.isTypeSupported(candidates[i])) return candidates[i];
+            }
+            return null;
+        }
+
+        function getCoverRect(img, x, y, w, h) {
+            var imgAspect = img.width / img.height;
+            var rectAspect = w / h;
+            var drawW, drawH, drawX, drawY;
+            if (imgAspect > rectAspect) {
+                drawH = h;
+                drawW = drawH * imgAspect;
+                drawX = x + (w - drawW) / 2;
+                drawY = y;
+            } else {
+                drawW = w;
+                drawH = drawW / imgAspect;
+                drawX = x;
+                drawY = y + (h - drawH) / 2;
+            }
+            return { x: drawX, y: drawY, w: drawW, h: drawH };
+        }
+
+        function getGridPos(idx) {
+            var cols = 3;
+            var rows = 4;
+            var cellW = canvas.width / cols;
+            var cellH = canvas.height / rows;
+            var c = idx % cols;
+            var r = Math.floor(idx / cols);
+            return {
+                x: c * cellW,
+                y: r * cellH,
+                w: cellW,
+                h: cellH,
+                cx: c * cellW + cellW / 2,
+                cy: r * cellH + cellH / 2
+            };
+        }
+
+        // -- Image loading (all formats supported) --------------------
+        assetsInput.addEventListener('change', function(e) {
+            var files = Array.prototype.slice.call(e.target.files);
+
+            loadedImgs = [];
+
+            if (files.length === 0) {
+                assetsText.textContent = 'Choose images...';
+                startBtn.disabled = true;
+                statusEl.textContent = 'Ready';
+                drawStaticPreview();
+                return;
+            }
+
+            statusEl.textContent = 'Loading images...';
+            assetsText.textContent = 'Loading ' + files.length + ' file(s)...';
+
+            var failedNames = [];
+            var heicFiles = [];
+
+            function processNext(i) {
+                if (i >= files.length) {
+                    finishLoading();
+                    return;
+                }
+                var file = files[i];
+                var name = file.name.toLowerCase();
+                var isHeic = name.indexOf('.heic') !== -1 || name.indexOf('.heif') !== -1 ||
+                             file.type === 'image/heic' || file.type === 'image/heif';
+
+                if (isHeic) {
+                    heicFiles.push(file.name);
+                    failedNames.push(file.name + ' (HEIC not supported)');
+                    processNext(i + 1);
+                    return;
+                }
+
+                readFileAsDataURL(file).then(function(dataURL) {
+                    return loadImageFromSrc(dataURL);
+                }).then(function(img) {
+                    loadedImgs.push(img);
+                    processNext(i + 1);
+                }).catch(function(err) {
+                    failedNames.push(file.name);
+                    console.warn('Failed to load:', file.name, err);
+                    processNext(i + 1);
+                });
+            }
+
+            function finishLoading() {
+                if (loadedImgs.length === 0) {
+                    var msg = 'No images could be loaded.';
+                    if (heicFiles.length > 0) {
+                        msg += ' HEIC format is not supported -- please convert to JPG/PNG.';
+                    } else {
+                        msg += ' Try JPG, PNG or WebP.';
+                    }
+                    assetsText.textContent = msg;
+                    statusEl.textContent = 'Image Load Failed';
+                    alert(msg);
+                } else {
+                    var statusMsg = loadedImgs.length + ' image' + (loadedImgs.length !== 1 ? 's' : '') + ' loaded';
+                    if (failedNames.length > 0) {
+                        statusMsg += ' (' + failedNames.length + ' failed)';
+                        console.warn('Failed files:', failedNames);
+                    }
+                    assetsText.textContent = statusMsg;
+                    statusEl.textContent = loadedImgs.length + ' Images Loaded';
+
+                    if (heicFiles.length > 0) {
+                        alert(heicFiles.length + ' HEIC file(s) were skipped.\nPlease convert iPhone photos to JPG first.');
+                    }
+                }
+
+                startBtn.disabled = loadedImgs.length === 0;
+                drawStaticPreview();
+            }
+
+            processNext(0);
+        });
+
+        musicInput.addEventListener('change', function(e) {
+            var file = e.target.files[0];
+            musicText.textContent = file ? file.name : 'Choose audio...';
+        });
+
+        document.getElementById('ixvs-mainTitle').addEventListener('input', drawStaticPreview);
+        document.getElementById('ixvs-subTitle').addEventListener('input', drawStaticPreview);
+
+        // -- Drawing functions -----------------------------------------
+        function drawCoverContent() {
+            var MARGIN = 100;
+            var PANEL_BASE = 560;
+            var SLANT = 90;
+            var rightY = PANEL_BASE - SLANT;
+            var leftY = PANEL_BASE + SLANT;
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(canvas.width, 0);
+            ctx.lineTo(canvas.width, rightY);
+            ctx.lineTo(0, leftY);
+            ctx.closePath();
+            ctx.fillStyle = activePalette.dark;
+            ctx.fill();
+
+            ctx.fillStyle = activePalette.accent;
+            ctx.fillRect(0, 0, 14, leftY);
+
+            ctx.font = "800 22px 'Inter'";
+            ctx.fillStyle = activePalette.accent;
+            drawTextWithSpacing(ctx, 'JOB CIRCULAR', MARGIN, 76, 3, 'left');
+            drawTextWithSpacing(ctx, 'THE DAILY JOBS', canvas.width - MARGIN, 76, 3, 'right');
+
+            var titleText = document.getElementById('ixvs-mainTitle').value || 'The Daily Jobs';
+            var HEAD_TOP = 150, HEAD_BOTTOM = rightY - 30;
+            var fitted = fitMultilineText(
+                ctx, titleText, canvas.width - MARGIN - 90, 122, 'italic 700', "'Bodoni Moda'",
+                50, 3, HEAD_BOTTOM - HEAD_TOP, 1.04
+            );
+            var titleSize = fitted.size, titleLines = fitted.lines, lineHeight = fitted.lineHeight;
+            ctx.font = "italic 700 " + titleSize + "px 'Bodoni Moda'";
+            ctx.fillStyle = CREAM;
+            var blockHeight = lineHeight * titleLines.length;
+            var lineY = HEAD_TOP + Math.max(0, (HEAD_BOTTOM - HEAD_TOP - blockHeight) / 2) + titleSize * 0.8;
+            ctx.textAlign = 'left';
+            titleLines.forEach(function(line) {
+                ctx.fillText(line, MARGIN, lineY);
+                lineY += lineHeight;
+            });
+
+            var tickY = leftY + 70;
+            ctx.fillStyle = activePalette.accent;
+            ctx.fillRect(MARGIN, tickY, 56, 6);
+            var subText = (document.getElementById('ixvs-subTitle').value || '').toUpperCase();
+            var subSize = fitText(ctx, subText, canvas.width - MARGIN * 2, 34, '800', "'Inter'", 4, 18);
+            ctx.font = "800 " + subSize + "px 'Inter'";
+            ctx.fillStyle = activePalette.dark;
+            drawTextWithSpacing(ctx, subText, MARGIN, tickY + 56, 4, 'left');
+
+            ctx.save();
+            ctx.globalAlpha = ctx.globalAlpha * 0.15;
+            ctx.strokeStyle = activePalette.dark;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(MARGIN, tickY + 90);
+            ctx.lineTo(canvas.width - MARGIN, tickY + 90);
+            ctx.stroke();
+            ctx.restore();
+
+            ctx.save();
+            ctx.translate(canvas.width - 210, 980);
+            ctx.rotate(-0.18);
+            ctx.strokeStyle = activePalette.accent;
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(0, 0, 96, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(0, 0, 82, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.fillStyle = activePalette.accent;
+            ctx.font = "900 34px 'Inter'";
+            drawTextWithSpacing(ctx, 'NEW', 0, -6, 0, 'center');
+            ctx.font = "800 16px 'Inter'";
+            drawTextWithSpacing(ctx, 'CIRCULAR', 0, 26, 2, 'center');
+            ctx.restore();
+
+            ctx.save();
+            ctx.globalAlpha = ctx.globalAlpha * 0.18;
+            ctx.strokeStyle = activePalette.accent;
+            ctx.lineWidth = 3;
+            for (var i = 0; i < 3; i++) {
+                ctx.beginPath();
+                ctx.moveTo(canvas.width - 40 - i * 30, canvas.height - 40);
+                ctx.lineTo(canvas.width - 190 - i * 30, canvas.height - 190);
+                ctx.stroke();
+            }
+            ctx.restore();
+
+            ctx.textAlign = 'center';
+            var taglineSize = fitText(ctx, 'Professional Job Circular Updates', canvas.width - 160, 24, '600', "'Inter'", 0, 15);
+            ctx.font = "600 " + taglineSize + "px 'Inter'";
+            ctx.fillStyle = activePalette.dark;
+            ctx.fillText('Professional Job Circular Updates', canvas.width / 2, canvas.height - 68);
+            ctx.fillStyle = activePalette.accent;
+            ctx.fillRect(canvas.width / 2 - 40, canvas.height - 42, 80, 5);
+        }
+
+        function drawStaticPreview() {
+            ctx.fillStyle = PAPER;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.globalAlpha = 1;
+            drawCoverContent();
+            ctx.restore();
+        }
+
+        function drawCover(p) {
+            var entry = cubicBezier(Math.min(p * 1.5, 1));
+            var exit = cubicBezier(Math.max((p - 0.8) * 5, 0));
+            var opacity = entry * (1 - exit);
+            ctx.save();
+            ctx.globalAlpha = opacity;
+            drawCoverContent();
+            ctx.restore();
+        }
+
+        function drawImageScene(idx, p) {
+            var img = loadedImgs[idx];
+            var grid = getGridPos(idx);
+
+            var ENTER_END = 0.15;
+            var EXIT_START = 0.85;
+
+            var phase, localP;
+            if (p < ENTER_END) {
+                phase = 'enter';
+                localP = p / ENTER_END;
+            } else if (p < EXIT_START) {
+                phase = 'hold';
+                localP = (p - ENTER_END) / (EXIT_START - ENTER_END);
+            } else {
+                phase = 'exit';
+                localP = (p - EXIT_START) / (1 - EXIT_START);
+            }
+
+            var eased = cubicBezier(Math.min(localP, 1));
+            var gridRect = getCoverRect(img, grid.x + 3, grid.y + 3, grid.w - 6, grid.h - 6);
+
+            var targetH = canvas.height * 0.72;
+            var targetW = targetH * (img.width / img.height);
+            var centerX = (canvas.width - targetW) / 2;
+            var centerY = (canvas.height - targetH) / 2 - 20;
+
+            var currentX, currentY, currentW, currentH, shadowBlur, scale;
+
+            if (phase === 'enter') {
+                currentX = gridRect.x + (centerX - gridRect.x) * eased;
+                currentY = gridRect.y + (centerY - gridRect.y) * eased;
+                currentW = gridRect.w + (targetW - gridRect.w) * eased;
+                currentH = gridRect.h + (targetH - gridRect.h) * eased;
+                shadowBlur = 80 * eased;
+                scale = 1;
+            } else if (phase === 'hold') {
+                currentX = centerX;
+                currentY = centerY;
+                currentW = targetW;
+                currentH = targetH;
+                shadowBlur = 80;
+                scale = 1 + Math.sin(localP * Math.PI * 2) * 0.015;
+            } else {
+                currentX = centerX + (gridRect.x - centerX) * eased;
+                currentY = centerY + (gridRect.y - centerY) * eased;
+                currentW = targetW + (gridRect.w - targetW) * eased;
+                currentH = targetH + (gridRect.h - targetH) * eased;
+                shadowBlur = 80 * (1 - eased);
+                scale = 1;
+            }
+
+            drawGridBackground(idx, 0.12);
+
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = shadowBlur;
+            ctx.shadowOffsetY = 25;
+
+            if (phase === 'hold') {
+                ctx.translate(currentX + currentW / 2, currentY + currentH / 2);
+                ctx.scale(scale, scale);
+                ctx.translate(-(currentX + currentW / 2), -(currentY + currentH / 2));
+            }
+
+            ctx.drawImage(img, currentX, currentY, currentW, currentH);
+            ctx.restore();
+
+            if (phase === 'hold') {
+                var labelOpacity = Math.min(localP * 5, 1);
+                ctx.save();
+                ctx.globalAlpha = labelOpacity;
+                ctx.textAlign = 'center';
+                ctx.fillStyle = activePalette.dark;
+
+                var labelText = 'CIRCULAR #' + (idx + 1);
+                var labelSize = fitText(ctx, labelText, canvas.width - 100, 42, '900', "'Inter'", 0, 22);
+                ctx.font = '900 ' + labelSize + "px 'Inter'";
+                ctx.fillText(labelText, canvas.width / 2, currentY + currentH + 100);
+
+                ctx.strokeStyle = activePalette.accent;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(canvas.width / 2 - 60, currentY + currentH + 125);
+                ctx.lineTo(canvas.width / 2 + 60, currentY + currentH + 125);
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        function drawEnd(p) {
+            var entry = cubicBezier(Math.min(p * 1.5, 1));
+            ctx.save();
+            ctx.globalAlpha = entry;
+
+            var BAND_BASE = 820;
+            var SLANT = 90;
+            var leftTop = BAND_BASE + SLANT;
+            var rightTop = BAND_BASE - SLANT;
+
+            ctx.beginPath();
+            ctx.moveTo(0, leftTop);
+            ctx.lineTo(canvas.width, rightTop);
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.lineTo(0, canvas.height);
+            ctx.closePath();
+            ctx.fillStyle = activePalette.dark;
+            ctx.fill();
+
+            ctx.fillStyle = activePalette.accent;
+            ctx.fillRect(canvas.width - 14, rightTop, 14, canvas.height - rightTop);
+
+            ctx.textAlign = 'center';
+
+            var line1 = 'For Full Details';
+            var size1 = fitText(ctx, line1, canvas.width - 160, 66, 'italic 700', "'Bodoni Moda'", 0, 32);
+            ctx.font = 'italic 700 ' + size1 + "px 'Bodoni Moda'";
+            ctx.fillStyle = CREAM;
+            ctx.fillText(line1, canvas.width / 2, canvas.height - 430);
+
+            var line2 = 'Visit Now';
+            var size2 = fitText(ctx, line2, canvas.width - 140, 96, '900', "'Inter'", 0, 40);
+            ctx.font = '900 ' + size2 + "px 'Inter'";
+            ctx.fillStyle = activePalette.accent;
+            ctx.fillText(line2, canvas.width / 2, canvas.height - 330);
+
+            var urlText = 'www.thedailyjobs.com';
+            var urlSize = fitText(ctx, urlText, canvas.width - 200, 32, '800', "'Inter'", 0, 18);
+            ctx.font = '800 ' + urlSize + "px 'Inter'";
+            var textW = ctx.measureText(urlText).width;
+            var btnH = urlSize + 38;
+            var btnW = textW + 76;
+            var btnX = (canvas.width - btnW) / 2;
+            var btnY = canvas.height - 250;
+
+            drawPillButton(ctx, btnX, btnY, btnW, btnH, CREAM);
+            ctx.fillStyle = activePalette.dark;
+            ctx.textBaseline = 'middle';
+            ctx.fillText(urlText, canvas.width / 2, btnY + btnH / 2 + 1);
+            ctx.textBaseline = 'alphabetic';
+
+            var tag = 'Regular Job Circular Updates Daily';
+            var tagSize = fitText(ctx, tag, canvas.width - 140, 22, '600', "'Inter'", 0, 14);
+            ctx.font = '600 ' + tagSize + "px 'Inter'";
+            ctx.fillStyle = CREAM;
+            ctx.save();
+            ctx.globalAlpha = ctx.globalAlpha * 0.85;
+            ctx.fillText(tag, canvas.width / 2, canvas.height - 80);
+            ctx.restore();
+
+            ctx.restore();
+        }
+
+        function drawGridBackground(excludeIdx, opacity) {
+            var cols = 3;
+            var rows = 4;
+            var cellW = canvas.width / cols;
+            var cellH = canvas.height / rows;
+            var totalCells = cols * rows;
+
+            ctx.save();
+            ctx.globalAlpha = opacity;
+
+            for (var i = 0; i < totalCells; i++) {
+                var imgIdx = i % loadedImgs.length;
+                if (imgIdx === excludeIdx && loadedImgs.length > 1) {
+                    imgIdx = (imgIdx + 1) % loadedImgs.length;
+                }
+
+                var img = loadedImgs[imgIdx];
+                var r = Math.floor(i / cols);
+                var c = i % cols;
+
+                var x = c * cellW;
+                var y = r * cellH;
+                var rect = getCoverRect(img, x + 3, y + 3, cellW - 6, cellH - 6);
+
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(x + 3, y + 3, cellW - 6, cellH - 6);
+                ctx.clip();
+                ctx.drawImage(img, rect.x, rect.y, rect.w, rect.h);
+                ctx.restore();
+            }
+
+            ctx.restore();
+        }
+
+        // -- Animation & recording ---------------------------------
+        function animate(duration, callback) {
+            var start = performance.now();
+            return new Promise(function(resolve) {
+                function step(now) {
+                    var elapsed = now - start;
+                    var p = Math.min(elapsed / duration, 1);
+                    callback(p);
+                    if (p < 1) requestAnimationFrame(step);
+                    else resolve();
+                }
+                requestAnimationFrame(step);
+            });
+        }
+
+        function renderVideo() {
+            var COVER_DURATION = 3000;
+            var IMAGE_SCENE_DURATION = 6000;
+            var END_DURATION = 4000;
+
+            var scenes = [{ type: 'cover', duration: COVER_DURATION }];
+            for (var i = 0; i < loadedImgs.length; i++) {
+                scenes.push({ type: 'image', index: i, duration: IMAGE_SCENE_DURATION });
+            }
+            scenes.push({ type: 'end', duration: END_DURATION });
+
+            var chain = Promise.resolve();
+            scenes.forEach(function(scene, s) {
+                chain = chain.then(function() {
+                    return animate(scene.duration, function(p) {
+                        ctx.fillStyle = PAPER;
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                        if (scene.type === 'cover') {
+                            drawCover(p);
+                        } else if (scene.type === 'image') {
+                            drawImageScene(scene.index, p);
+                        } else if (scene.type === 'end') {
+                            drawEnd(p);
+                        }
+
+                        var totalP = (s + p) / scenes.length;
+                        progressBar.style.width = (totalP * 100) + '%';
+                        progressText.textContent = Math.round(totalP * 100) + '%';
+                        statusEl.textContent = scene.type === 'image'
+                            ? 'Rendering: IMAGE ' + (scene.index + 1) + '/' + loadedImgs.length
+                            : 'Rendering: ' + scene.type.toUpperCase();
+                    });
+                });
+            });
+            return chain;
+        }
+
+        function start() {
+            if (isRendering) return;
+            if (loadedImgs.length === 0) return;
+
+            activePalette = palettes[Math.floor(Math.random() * palettes.length)];
+
+            var mimeType = getSupportedMimeType();
+            if (!mimeType) {
+                alert('Your browser does not support video recording.');
+                return;
+            }
+            var isMp4 = mimeType.indexOf('mp4') !== -1;
+            formatNote.textContent = isMp4
+                ? 'Output format: MP4 (H.264)'
+                : 'Output format: WebM (browser does not support MP4 encoding)';
+
+            isRendering = true;
+            startBtn.disabled = true;
+            saveBtn.classList.add('hidden');
+
+            var musicFile = musicInput.files[0];
+            var musicPromise = Promise.resolve();
+            if (musicFile) {
+                musicPromise = readFileAsDataURL(musicFile).then(function(dataURL) {
+                    player.src = dataURL;
+                    player.play().catch(function() {});
+                }).catch(function(err) {
+                    console.warn('Failed to load background music:', err);
+                });
+            }
+
+            var stream = canvas.captureStream(60);
+            try {
+                recorder = new MediaRecorder(stream, { mimeType: mimeType, videoBitsPerSecond: 8000000 });
+            } catch (err) {
+                alert('Failed to initialize recorder: ' + err.message);
+                isRendering = false;
+                startBtn.disabled = false;
+                return;
+            }
+
+            chunks = [];
+            recorder.ondataavailable = function(e) { if (e.data.size > 0) chunks.push(e.data); };
+            recorder.onstop = function() {
+                var blob = new Blob(chunks, { type: mimeType });
+                var url = URL.createObjectURL(blob);
+                saveBtn.href = url;
+                saveBtn.download = 'thedailyjobs_' + Date.now() + '.' + (isMp4 ? 'mp4' : 'webm');
+                saveBtn.textContent = isMp4 ? 'Download HD MP4' : 'Download HD Video';
+                saveBtn.classList.remove('hidden');
+                startBtn.disabled = false;
+                statusEl.textContent = 'Finished';
+                isRendering = false;
+            };
+
+            recorder.onerror = function() {
+                statusEl.textContent = 'Error';
+                isRendering = false;
+                startBtn.disabled = false;
+            };
+
+            musicPromise.then(function() {
+                recorder.start(100);
+                return renderVideo();
+            }).then(function() {
+                recorder.stop();
+            }).catch(function(err) {
+                console.error('Render error:', err);
+                if (recorder && recorder.state !== 'inactive') recorder.stop();
+            }).then(function() {
+                player.pause();
+                player.src = '';
+            });
+        }
+
+        // -- Init -----------------------------------------------------
+        startBtn.addEventListener('click', start);
+        drawStaticPreview();
+
+    })();
+    </script>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('./sw.js').catch(function (err) {
+                console.warn('PWA service worker registration failed:', err);
+            });
+        });
+    }
+    </script>
+</body>
+</html>

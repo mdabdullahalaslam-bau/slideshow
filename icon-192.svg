@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="35" fill="#10243E"/>
+  <rect x="15" y="15" width="161" height="161" rx="25" fill="#F6F2E9"/>
+  <rect x="15" y="15" width="12" height="161" fill="#C9A24A"/>
+  <text x="50%" y="45%" text-anchor="middle" font-family="Arial, sans-serif" font-size="33" font-weight="900" fill="#10243E">DAILY</text>
+  <text x="50%" y="64%" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="900" fill="#C9A24A">JOBS</text>
+</svg>
